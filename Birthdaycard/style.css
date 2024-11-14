@@ -1,0 +1,104 @@
+/* Basic Styles */
+body {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #ffddc1;
+    font-family: Arial, sans-serif;
+  }
+  
+  .card {
+    text-align: center;
+    padding: 30px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  /* Balloon Styles */
+  .balloons {
+    position: absolute;
+    top: -100px;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    animation: float 10s ease-in-out infinite;
+  }
+  
+  .balloon {
+    width: 50px;
+    height: 70px;
+    background: linear-gradient(45deg, #ff6b6b, #ffcc00);
+    border-radius: 50%;
+    position: relative;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    animation: bounce 2s infinite alternate;
+    opacity: 0.8;
+  }
+  
+  .balloon:before {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 20px;
+    background-color: #333;
+    border-radius: 2px;
+  }
+  
+  /* Keyframes for Animations */
+  @keyframes float {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-30px); }
+    100% { transform: translateY(0); }
+  }
+  
+  @keyframes bounce {
+    from { transform: translateY(10px); }
+    to { transform: translateY(-10px); }
+  }
+  
+  /* Message Styles */
+  .message h1 {
+    font-size: 2em;
+    color: #ff6b6b;
+    margin: 0;
+  }
+  
+  .message p {
+    font-size: 1.2em;
+    color: #333;
+    margin: 10px 0 20px;
+  }
+  
+  button {
+    padding: 10px 20px;
+    background: #ff6b6b;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  }
+  
+  button:hover {
+    background: #ff4b4b;
+  }
+  
+  /* Confetti Styles */
+  canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+  

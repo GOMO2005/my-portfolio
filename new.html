@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pelluri Bala Venkata Siva Sagar - Student Portfolio</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/adjax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo">PBVSS</div>
+        <ul class="nav-links">
+            <li><a href="#hero">Home</a></li>
+            <li><a href="#about">About Me</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#blog">Blog</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <div class="hamburger" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero" class="parallax-bg">
+        <div class="hero-content">
+            <div class="text-content">
+                <h1>Pelluri Bala Venkata Siva Sagar</h1>
+                <p>Student | Ethical Hacker | Web Developer | Machine Learning Enthusiast</p>
+                <button><a href="#about">About me</a></button>
+                <div class="social-links">
+                    <a href="https://github.com" target="_blank" aria-label="Github"><i class="fab fa-github"></i></a>
+                    <a href="https://www.instagram.com/pellurisiva2005/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.facebook.com/profile.php?id=100023768890570" target="_blank" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                    <a href="https://hackerone.com/srolex_123?type=user" target="_blank" aria-label="HackerOne"><i class="fab fa-hackerone"></i></a>
+                </div>
+            </div>
+            <div class="profile-pic">
+                <img src="image/23ATA05376.jpeg" alt="Profile Picture" draggable="false">
+            </div>
+        </div>
+    </section>
+    
+
+    <!-- About Me Section -->
+    <div class="about-section">
+        <div class="content">
+            <h2>About Me</h2>
+            <h3>Pelluri Bala Venkata Siva Sagar</h3>
+            <p>I’m Pelluri Bala Venkata Siva Sagar, a B.Tech student in Computer Science and Engineering. I’m passionate about software engineering, web development, and ethical hacking, with skills in HTML, CSS, JavaScript, and Python. I enjoy creating tech solutions and exploring new innovations. Check out my projects and skills!</p>
+            <div class="details">
+                <p><strong>Age:</strong> 19</p>
+                <p><strong>Email:</strong>Pellurisivasagar@gmail.com</p>
+                <p><strong>Phone:</strong>+91 9581942531</p>
+                <p><strong>Location:</strong> Kurnool, India</p>
+            </div>
+            <a href="resume.pdf" class="resume-button" download>Download Resume</a>
+        </div>
+        <div class="image-container">
+            <img src="image/avather.jpg" alt="Your Image">
+        </div>
+    </div>
+
+    <!-- Projects Section -->
+    <section class="projects-section">
+        <div class="projects-container">
+            <h2>My Projects</h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <img src="image/facelogin.jpg" alt="FaceSecure Login System">
+                    <div class="card-content">
+                        <h3>FaceSecure Login System</h3>
+                        <p>A secure web login using facial recognition. Built with HTML/CSS, JavaScript, and Python, it verifies users via facial data.</p>
+                        <a href="#" class="project-link">View Project</a>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <img src="image/webcompiler.jpg" alt="Online Code Compiler">
+                    <div class="card-content">
+                        <h3>Online Code Compiler</h3>
+                        <p>A browser-based coding tool allowing users to write and run code directly in the browser, using HTML/CSS/JavaScript with a Python backend.</p>
+                        <a href="#" class="project-link">View Project</a>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <img src="image/emailfilter.jpg" alt="Smart Email Organizer">
+                    <div class="card-content">
+                        <h3>Smart Email Organizer</h3>
+                        <p>A tool to organize emails based on sender, keywords, or date using Python. Helps users automatically categorize and prioritize emails.</p>
+                        <a href="#" class="project-link">View Project</a>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <img src="image/drivepass.jpg" alt="PassDrive: Encrypted USB Password Storage">
+                    <div class="card-content">
+                        <h3>PassDrive: Encrypted USB Password Storage</h3>
+                        <p>A USB tool storing encrypted logins for automatic access to accounts. Created with Python for secure, convenient login automation.</p>
+                        <a href="#" class="project-link">View Project</a>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <img src="image/autolog.jpg" alt="AutoReg: Automated Web Registration Tool">
+                    <div class="card-content">
+                        <h3>AutoReg: Automated Web Registration Tool</h3>
+                        <p>A bot that registers and logs in to websites automatically using Python and Selenium, ideal for automating repetitive form entries.</p>
+                        <a href="#" class="project-link">View Project</a>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <img src="image/portfoilio.jpg" alt="Interactive Personal Portfolio">
+                    <div class="card-content">
+                        <h3>Interactive Personal Portfolio</h3>
+                        <p>A personal website showcasing skills and projects, built with HTML, CSS, JavaScript, and ReactJS. Includes interactive sections like "About," "Projects," and "Contact."</p>
+                        <a href="#" class="project-link">View Project</a>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <img src="image/birthdaycard.jpg" alt="Animated Digital Birthday Card">
+                    <div class="card-content">
+                        <h3>Animated Digital Birthday Card</h3>
+                        <p>A fun, animated digital birthday card with balloons and confetti, created with HTML, CSS, and JavaScript. Perfect for sending interactive birthday wishes.</p>
+                        <a href="#" class="project-link">View Project</a>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <img src="image/chat.jpg" alt="ChatSpace: Real-Time Messaging App">
+                    <div class="card-content">
+                        <h3>ChatSpace: Real-Time Messaging App</h3>
+                        <p>A live messaging app, similar to Slack, with group/private chat, file sharing, and online status. Uses ReactJS, Python (Flask/Django), and WebSockets for instant communication.</p>
+                        <a href="#" class="project-link">View Project</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>    
+
+    <!-- Skills Section -->
+<section class="skills-section">
+    <div class="skills-container">
+        <h2>My Skills</h2>
+        <div class="skills-domains">
+            <!-- Programming Languages -->
+            <div class="skills-domain">
+                <h3>Programming Languages</h3>
+                <div class="skill">
+                    <span>Python</span>
+                    <div class="progress-bar" data-progress="90"></div>
+                </div>
+                <div class="skill">
+                    <span>JavaScript</span>
+                    <div class="progress-bar" data-progress="80"></div>
+                </div>
+                <div class="skill">
+                    <span>C</span>
+                    <div class="progress-bar" data-progress="70"></div>
+                </div>
+                <div class="skill">
+                    <span>HTML</span>
+                    <div class="progress-bar" data-progress="70"></div>
+                </div>
+                <div class="skill">
+                    <span>CSS</span>
+                    <div class="progress-bar" data-progress="50"></div>
+                </div>
+            </div>
+
+            <!-- Frameworks -->
+            <div class="skills-domain">
+                <h3>Frameworks</h3>
+                <div class="skill">
+                    <span>React</span>
+                    <div class="progress-bar" data-progress="80"></div>
+                </div>
+                <div class="skill">
+                    <span>Node.js</span>
+                    <div class="progress-bar" data-progress="75"></div>
+                </div>
+                <div class="skill">
+                    <span>Express.js</span>
+                    <div class="progress-bar" data-progress="85"></div>
+                </div>
+            </div>
+
+            <!-- Tools -->
+            <div class="skills-domain">
+                <h3>Tools</h3>
+                <div class="skill">
+                    <span>Git</span>
+                    <div class="progress-bar" data-progress="95"></div>
+                </div>
+                <div class="skill">
+                    <span>.NET</span>
+                    <div class="progress-bar" data-progress="70"></div>
+                </div>
+            </div>
+
+            <!-- Databases -->
+            <div class="skills-domain">
+                <h3>Databases</h3>
+                <div class="skill">
+                    <span>MySQL</span>
+                    <div class="progress-bar" data-progress="80"></div>
+                </div>
+                <div class="skill">
+                    <span>MongoDB</span>
+                    <div class="progress-bar" data-progress="70"></div>
+                </div>
+            </div>
+
+            <!-- Ethical Hacking -->
+            <div class="skills-domain">
+                <h3>Ethical Hacking</h3>
+                <div class="skill">
+                    <span>Web Penetration</span>
+                    <div class="progress-bar" data-progress="50"></div>
+                </div>
+                <div class="skill">
+                    <span>Network Penetration</span>
+                    <div class="progress-bar" data-progress="50"></div>
+                </div>
+                <div class="skill">
+                    <span>WiFi Penetration</span>
+                    <div class="progress-bar" data-progress="50"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <!-- Blog Section -->
+    <section class="blog-section">
+        <div class="blog-container">
+            <h2>My Blogs</h2>
+            <div class="blog-domains">
+                <!-- Technology Domain -->
+                <div class="blog-domain">
+                    <h3>Technology</h3>
+                    <div class="blog-post">
+                        <h4>Optical Computers</h4>
+                        <p>An Optical Computer uses light instead of electricity for processing, offering faster speeds and improved energy efficiency. It utilizes two different colors of light: one (e.g., red) for high-speed tasks and the other (e.g., blue) for more complex, slower tasks, enabling parallel processing. This design increases computational speed, reduces heat generation, and enhances multitasking capabilities, making it ideal for fields like AI, cryptography, and scientific simulations</p>
+                        <a href="#">Read More</a>
+                    </div>
+                    <div class="blog-post">
+                        <h4>Exploring Artificial Intelligence</h4>
+                        <p>The AI Assistant is a powerful, multi-domain prediction tool designed to handle large datasets using diverse algorithms. It includes **time series analysis** for trend forecasting, **classification** for data categorization, **regression** for continuous outcome prediction, and **deep learning** (CNNs, RNNs) for complex tasks like image recognition and text analysis. It also integrates **reinforcement learning** for personalized recommendations and **anomaly detection** for cybersecurity and fraud detection. With applications in healthcare, finance, retail, and customer service, this assistant offers insights, forecasts, and real-time decision-making for a range of industries.</p>
+                        <a href="#">Read More</a>
+                    </div>
+                </div>
+    
+                <!-- Personal Development Domain -->
+                <div class="blog-domain">
+                    <h3>Personal Development</h3>
+                    <div class="blog-post">
+                        <h4>Artificial Intalligence</h4>
+                        <p>Developing healthy and productive habits is key to personal growth. This post provides insights into how to create habits that last.</p>
+                        <a href="#">Read More</a>
+                    </div>
+                    <div class="blog-post">
+                        <h4>Sence Tech</h4>
+                        <p>The Sixth Sense device, powered by a **Raspberry Pi**, integrates **AI** for object, voice, and gesture recognition, enabling interactive, real-world data overlays. **Kali Linux tools** enhance security by detecting network vulnerabilities, protecting user data, and alerting to suspicious activities. This device acts as a hands-free assistant, providing real-time information on objects, secure connections, and interactive commands, making it a smart personal assistant and security tool in one.</p>
+                        <a href="#">Read More</a>
+                    </div>
+                </div>
+    
+                <!-- Career & Growth Domain -->
+                <div class="blog-domain">
+                    <h3>Career & Growth</h3>
+                    <div class="blog-post">
+                        <h4>Techstart-startup</h4>
+                        <p>**MediConnect** is a platform designed to connect patients, healthcare providers, and medical institutions seamlessly. It simplifies appointment scheduling, telemedicine, and electronic health record (EHR) management, improving communication and access to care. MediConnect aims to enhance the patient experience and streamline healthcare processes, making care more efficient and accessible.</p>
+                        <a href="#">Read More</a>
+                    </div>
+                    <div class="blog-post">
+                        <h4>BugHunting</h4>
+                        <p>Bug hunting involves finding and reporting vulnerabilities in software to improve security. To get started, learn about common vulnerabilities like SQL injection and XSS. Use tools like Burp Suite and OWASP ZAP in a safe testing environment. Participate in bug bounty platforms like HackerOne or CTF challenges to practice real-world security testing. Keep learning and stay updated on security trends to enhance your skills.</p>
+                        <a href="#">Read More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="contact-container">
+            <h2>Contact Me</h2>
+            <form id="contactForm" method="POST" action="#">
+                <div class="form-group">
+                    <label for="name">Your Name:</label>
+                    <input type="text" id="name" name="user_name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Your Email:</label>
+                    <input type="email" id="email" name="user_email" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Your Message:</label>
+                    <textarea id="message" name="message" rows="5" required></textarea>
+                </div>
+                <div id="formStatus"></div>
+                <button type="submit" class="submit-btn">Send Message</button>
+            </form>
+        </div>
+    </section>    
+</body>
+</html>
