@@ -14,7 +14,7 @@ Aspiring software developer with hands-on experience in **Python, Java, and Java
 ## 💻 Key Skills & Technologies
 
 - **Programming & Scripting:** Python, JavaScript, Java, C, HTML5, CSS3, SQL
-- **Web Frameworks & Libraries:** ReactJS, Node.js, Express.js, Flask, Django
+- **Web Frameworks & Libraries:** Flask, Django
 - **Core Competencies:** Problem-Solving, Object-Oriented Programming (OOP), Data Structures & Algorithms
 - **Databases:** MySQL, MongoDB
 - **Real-Time Communication:** WebSockets, Socket.IO
