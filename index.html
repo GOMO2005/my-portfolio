@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PBVSS | Portfolio 2026</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <!-- External CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="progress-container">
+        <div class="progress-bar" id="bar"></div>
+    </div>
+
+    <button class="nav-btn prev">‹</button>
+    <button class="nav-btn next">›</button>
+
+    <!-- SVG TEMPLATE -->
+    <svg id="wave-svg-template" xmlns="http://www.w3.org/2000/svg" style="display:none">
+        <defs>
+
+            <!-- Horizontal wave -->
+            <pattern id="waveH" patternUnits="userSpaceOnUse" width="32" height="22">
+                <path d="
+                    M0,11
+                    C4,4 8,4 11,11
+                    C14,18 18,18 22,11
+                    C26,4 30,4 32,11
+                "
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.8"
+                stroke-linecap="round"/>
+
+                <path d="
+                    M0,15
+                    C4,8 8,8 11,15
+                    C14,22 18,22 22,15
+                    C26,8 30,8 32,15
+                "
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.2"
+                stroke-linecap="round"
+                opacity="0.45"/>
+            </pattern>
+
+            <!-- Vertical wave -->
+            <pattern id="waveV"
+                     patternUnits="userSpaceOnUse"
+                     width="22"
+                     height="32"
+                     patternTransform="rotate(90 11 11)">
+                <path d="
+                    M0,11
+                    C4,4 8,4 11,11
+                    C14,18 18,18 22,11
+                    C26,4 30,4 32,11
+                "
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.8"
+                stroke-linecap="round"/>
+
+                <path d="
+                    M0,15
+                    C4,8 8,8 11,15
+                    C14,22 18,22 22,15
+                    C26,8 30,8 32,15
+                "
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.2"
+                stroke-linecap="round"
+                opacity="0.45"/>
+            </pattern>
+
+        </defs>
+    </svg>
+
+    <div class="portfolio-container" id="slider">
+
+        <!-- HOME -->
+        <section class="page" style="justify-content: center; align-items: center; text-align: center;">
+            <div class="wave-frame"></div>
+
+            <div>
+                <img src="image/avather.jpg"
+                     class="profile-img"
+                     alt="Avatar">
+
+                <p style="letter-spacing: 12px; color: var(--accent); font-size: 0.65rem; margin-bottom: 25px;">
+                    PORTFOLIO 2026
+                </p>
+
+                <h1>
+                    PELLURI<br>
+                    <span class="accent-text">SIVA SAGAR</span>
+                </h1>
+
+                <p style="margin-top: 25px; opacity: 0.5;">
+                    Computer Science Student & Technology Enthusiast
+                </p>
+            </div>
+        </section>
+
+        <!-- ABOUT -->
+        <section class="page">
+
+            <div class="wave-frame"></div>
+
+            <aside class="meta-panel">
+                <h2>ABOUT<br>PROFILE</h2>
+            </aside>
+
+            <div class="content-panel">
+
+                <img src="image/23ATA05376.jpeg"
+                     style="width: 100%; max-width: 400px; margin-bottom: 40px; border-radius: 4px;"
+                     alt="Profile Large">
+
+                <p style="font-size: 1.3rem; line-height: 1.7; color: #ddd;">
+                    I'm <span class="accent-text">Pelluri Bala Venkata Siva Sagar</span>,
+                    B.Tech student in Computer Science and Engineering, passionate about software development and building secure, innovative technology solutions.
+                </p>
+
+            </div>
+        </section>
+
+        <!-- PROJECTS -->
+        <section class="page">
+
+            <div class="wave-frame"></div>
+
+            <aside class="meta-panel">
+                <h2>SELECTED<br>PROJECTS</h2>
+            </aside>
+
+            <div class="content-panel">
+
+                <div class="grid-container">
+
+                    <div class="card">
+                        <img src="image/facelogin.jpg"
+                             class="card-img"
+                             alt="FaceSecure">
+
+                        <div class="card-body">
+                            <h3>FaceSecure Login</h3>
+
+                            <p>
+                                Biometric authentication system using Python and OpenCV.
+                                Verifies identity via facial landmarks for secure web access.
+                            </p>
+
+                            <a href="https://github.com/GOMO2005/Web-Login-with-Facial-Recognition"
+                               class="card-link"
+                               target="_blank">
+                               VIEW PROJECT
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <img src="image/webcompiler.jpg"
+                             class="card-img"
+                             alt="Code Compiler">
+
+                        <div class="card-body">
+                            <h3>Online Compiler</h3>
+
+                            <p>
+                                Cloud-based execution environment.
+                                Write and run code in real-time with a Python-powered backend.
+                            </p>
+
+                            <a href="#" class="card-link">
+                                VIEW PROJECT
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <img src="image/emailfilter.jpg"
+                             class="card-img"
+                             alt="Email Organizer">
+
+                        <div class="card-body">
+                            <h3>Smart Email Organizer</h3>
+
+                            <p>
+                                Automation script using Python's IMAP library to categorize
+                                and prioritize emails based on custom keywords.
+                            </p>
+
+                            <a href="https://github.com/GOMO2005/Email-Filter-and-Sorter"
+                               class="card-link"
+                               target="_blank">
+                               VIEW PROJECT
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <img src="image/drivepass.jpg"
+                             class="card-img"
+                             alt="PassDrive">
+
+                        <div class="card-body">
+                            <h3>PassDrive</h3>
+
+                            <p>
+                                Hardware-based encrypted storage for credentials.
+                                Features auto-injection of passwords using Python automation.
+                            </p>
+
+                            <a href="https://github.com/GOMO2005/Pass-Drive"
+                               class="card-link"
+                               target="_blank">
+                               VIEW PROJECT
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <img src="image/autolog.jpg"
+                             class="card-img"
+                             alt="AutoReg">
+
+                        <div class="card-body">
+                            <h3>AutoReg Bot</h3>
+
+                            <p>
+                                Selenium-based automation tool for mass registration
+                                and form-filling tasks on complex web architectures.
+                            </p>
+
+                            <a href="https://github.com/GOMO2005/Automatic-Registration-and-Login-Bot"
+                               class="card-link"
+                               target="_blank">
+                               VIEW PROJECT
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <img src="image/portfoilio.jpg"
+                             class="card-img"
+                             alt="Portfolio">
+
+                        <div class="card-body">
+                            <h3>Interactive Portfolio</h3>
+
+                            <p>
+                                This very site. Built with high-performance CSS transitions
+                                and ReactJS for a seamless horizontal UX.
+                            </p>
+
+                            <a href="#" class="card-link">
+                                VIEW PROJECT
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <img src="https://gomo2005.github.io/my-portfolio/image/birthdaycard.jpg"
+                             class="card-img"
+                             alt="Digital Card">
+
+                        <div class="card-body">
+                            <h3>Animated Digital Card</h3>
+
+                            <p>
+                                Creative front-end project featuring Canvas API particles,
+                                confetti physics, and interactive JS animations.
+                            </p>
+
+                            <a href="https://github.com/GOMO2005/Birthday-Wish-Card"
+                               class="card-link"
+                               target="_blank">
+                               VIEW PROJECT
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <img src="image/chat.jpg"
+                             class="card-img"
+                             alt="ChatSpace">
+
+                        <div class="card-body">
+                            <h3>ChatSpace App</h3>
+
+                            <p>
+                                Full-stack messaging platform utilizing WebSockets
+                                for sub-millisecond latency and real-time status updates.
+                            </p>
+
+                            <a href="https://github.com/GOMO2005/Real-Time-Chat-Application"
+                               class="card-link"
+                               target="_blank">
+                               VIEW PROJECT
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- SKILLS -->
+        <section class="page">
+
+            <div class="wave-frame"></div>
+
+            <aside class="meta-panel">
+                <h2>SKILLS &<br>EXPERTISE</h2>
+            </aside>
+
+            <div class="content-panel">
+
+                <div class="skills-grid">
+
+                    <div class="skill-category">
+                        <h4>PROGRAMMING</h4>
+
+                        <div class="skill-list">
+                            <div class="skill-tag">Python</div>
+                            <div class="skill-tag">JavaScript</div>
+                            <div class="skill-tag">C Language</div>
+                            <div class="skill-tag">HTML5 / CSS3</div>
+                        </div>
+                    </div>
+
+                    <div class="skill-category">
+                        <h4>FRAMEWORKS</h4>
+
+                        <div class="skill-list">
+                            <div class="skill-tag">Flask</div>
+                            <div class="skill-tag">FastAPI</div>
+                            <div class="skill-tag">Pytest</div>
+                        </div>
+                    </div>
+
+                    <div class="skill-category">
+                        <h4>INFRASTRUCTURE</h4>
+
+                        <div class="skill-list">
+                            <div class="skill-tag">MySQL</div>
+                            <div class="skill-tag">MongoDB</div>
+                            <div class="skill-tag">Git / GitHub</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACT -->
+        <section class="page">
+
+            <div class="wave-frame"></div>
+
+            <aside class="meta-panel">
+                <h2>GET IN<br>TOUCH</h2>
+            </aside>
+
+            <div class="content-panel">
+
+                <form id="contactForm" style="max-width: 600px;">
+
+                    <div style="margin-bottom: 25px;">
+                        <input type="text"
+                               placeholder="Name"
+                               required
+                               style="width: 100%; background: none; border: none; border-bottom: 1px solid #333; padding: 15px 0; color: white; outline: none;">
+                    </div>
+
+                    <div style="margin-bottom: 25px;">
+                        <input type="email"
+                               placeholder="Email"
+                               required
+                               style="width: 100%; background: none; border: none; border-bottom: 1px solid #333; padding: 15px 0; color: white; outline: none;">
+                    </div>
+
+                    <div style="margin-bottom: 35px;">
+                        <textarea rows="4"
+                                  placeholder="Message"
+                                  required
+                                  style="width: 100%; background: none; border: none; border-bottom: 1px solid #333; padding: 15px 0; color: white; outline: none;"></textarea>
+                    </div>
+
+                    <button type="submit"
+                            style="background: var(--accent); color: black; border: none; padding: 18px 40px; font-family: 'Syncopate', sans-serif; cursor: pointer; width: 100%;">
+                        SEND
+                    </button>
+
+                    <p id="status"
+                       style="margin-top: 20px; color: var(--accent); display: none;">
+                        ✓ Sent Successfully!
+                    </p>
+
+                </form>
+
+            </div>
+        </section>
+
+    </div>
+
+    <!-- External JS -->
+    <script src="script.js"></script>
+
+</body>
+</html>
