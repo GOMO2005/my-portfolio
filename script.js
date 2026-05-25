@@ -1,130 +1,362 @@
-// Add event listener to nav links
-document.querySelectorAll('nav a').forEach(link => {
-    link.addEventListener('click', () => {
-        const sectionId = link.getAttribute('href').replace('#', '');
-        const section = document.getElementById(sectionId);
-        section.scrollIntoView({ behavior: 'smooth' });
+/* ─── Navigation ─── */
+
+const slider = document.getElementById('slider');
+const bar = document.getElementById('bar');
+
+document.querySelector('.next').addEventListener('click', () => {
+    slider.scrollBy({
+        left: window.innerWidth,
+        behavior: 'smooth'
     });
 });
 
-// Initialize AOS library
-AOS.init({
-    duration: 1000,
-    delay: 500,
-});
-
-// Initialize GSAP library
-gsap.registerPlugin(ScrollTrigger);
-
-gsap.from('.hero-content', {
-    duration: 1,
-    opacity: 0,
-    y: 100,
-    scrollTrigger: {
-        trigger: '.hero',
-        start: 'top 80%',
-        end: 'bottom 20%',
-    },
-});
-
-gsap.from('.project-list li', {
-    duration: 1,
-    opacity: 0,
-    y: 100,
-    scrollTrigger: {
-        trigger: '.projects',
-        start: 'top 80%',
-        end: 'bottom 20%',
-    },
-});
-
-gsap.from('.skill-list li', {
-    duration: 1,
-    opacity: 0,
-    y: 100,
-    scrollTrigger: {
-        trigger: '.skills',
-        start: 'top 80%',
-        end: 'bottom 20%',
-    },
-});
-
-gsap.from('.blog-list li', {
-    duration: 1,
-    opacity: 0,
-    y: 100,
-    scrollTrigger: {
-        trigger: '.blog',
-        start: 'top 80%',
-        end: 'bottom 20%',
-    },
-});
-
-// Add event listener to project cards
-document.querySelectorAll('.project-list li').forEach(card => {
-    card.addEventListener('click', () => {
-        const projectId = card.dataset.projectId;
-        const projectDetails = document.getElementById(`project-details-${projectId}`);
-        projectDetails.classList.toggle('show');
+document.querySelector('.prev').addEventListener('click', () => {
+    slider.scrollBy({
+        left: -window.innerWidth,
+        behavior: 'smooth'
     });
 });
 
-// Add event listener to skill items
-document.querySelectorAll('.skill-list li').forEach(skill => {
-    skill.addEventListener('click', () => {
-        const skillId = skill.dataset.skillId;
-        const skillDetails = document.getElementById(`skill-details-${skillId}`);
-        skillDetails.classList.toggle('show');
-    });
+slider.addEventListener('scroll', () => {
+    const max = slider.scrollWidth - slider.clientWidth;
+    bar.style.width = (slider.scrollLeft / max * 100) + '%';
 });
 
-// Add event listener to blog posts
-document.querySelectorAll('.blog-list li').forEach(post => {
-    post.addEventListener('click', () => {
-        const postId = post.dataset.postId;
-        const postDetails = document.getElementById(`post-details-${postId}`);
-        postDetails.classList.toggle('show');
-    });
+slider.addEventListener('wheel', (e) => {
+    if (e.deltaY !== 0) {
+        e.preventDefault();
+        slider.scrollLeft += e.deltaY;
+    }
 });
 
-// skills//
-document.querySelectorAll('.progress-bar').forEach(bar => {
-    const progress = bar.getAttribute('data-progress');
-    bar.style.width = progress + '%';
-    bar.style.backgroundColor = 'green'; // Set color to green
+document.getElementById('contactForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    document.getElementById('status').style.display = 'block';
+
+    e.target.reset();
 });
 
 
-// Initialize EmailJS with your User ID
-(function() {
-    emailjs.init("stark");  // Replace with your EmailJS User ID
-})();
+/* ─── Wave Border Builder ─── */
 
-// Add event listener for the contact form submission
-document.getElementById("contactForm").addEventListener("submit", function(event) {
-    event.preventDefault();  // Prevent the form from submitting traditionally
+const COLOR  = '#00ffcc';
+const THICK  = 22;
+const WAVE_W = 32;
+const WAVE_H = 22;
+const CORNER = THICK;
 
-    // Show a status message while the email is being sent
-    const formStatus = document.getElementById("formStatus");
-    formStatus.innerText = "Sending message...";
 
-    // Prepare the form data to be sent
-    const templateParams = {
-        user_name: document.getElementById("name").value,
-        user_email: document.getElementById("email").value,
-        message: document.getElementById("message").value,
-        to_email: 'pellurisivasagar@gmail.com'  // Your email address
+/**
+ * Build a wave path string for a horizontal strip
+ * dir: 1 = wave peaks up
+ * dir: -1 = wave peaks down
+ */
+
+function wavePathH(x0, y0, length, dir) {
+
+    const cy = y0 + THICK / 2;
+    const amp = THICK * 0.38;
+    const wl = WAVE_W;
+
+    let d = `M${x0},${cy}`;
+
+    const steps = Math.ceil(length / wl) + 1;
+
+    for (let i = 0; i < steps; i++) {
+
+        const x1 = x0 + i * wl + wl / 4;
+        const x2 = x0 + i * wl + wl * 3 / 4;
+        const x3 = x0 + (i + 1) * wl;
+
+        d += ` C${x1},${cy - dir * amp} ${x2},${cy + dir * amp} ${x3},${cy}`;
+    }
+
+    return d;
+}
+
+
+/**
+ * Build a wave path string for a vertical strip
+ */
+
+function wavePathV(x0, y0, length, dir) {
+
+    const cx = x0 + THICK / 2;
+    const amp = THICK * 0.38;
+    const wl = WAVE_W;
+
+    let d = `M${cx},${y0}`;
+
+    const steps = Math.ceil(length / wl) + 1;
+
+    for (let i = 0; i < steps; i++) {
+
+        const y1 = y0 + i * wl + wl / 4;
+        const y2 = y0 + i * wl + wl * 3 / 4;
+        const y3 = y0 + (i + 1) * wl;
+
+        d += ` C${cx - dir * amp},${y1} ${cx + dir * amp},${y2} ${cx},${y3}`;
+    }
+
+    return d;
+}
+
+
+function buildWaveSVG(W, H) {
+
+    const ns = 'http://www.w3.org/2000/svg';
+
+    const svg = document.createElementNS(ns, 'svg');
+
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    svg.setAttribute('preserveAspectRatio', 'none');
+
+    svg.style.cssText = `
+        position:absolute;
+        top:0;
+        left:0;
+        width:100%;
+        height:100%;
+    `;
+
+
+    const makeStroke = (d, sw, op = 1) => {
+
+        const p = document.createElementNS(ns, 'path');
+
+        p.setAttribute('d', d);
+        p.setAttribute('fill', 'none');
+        p.setAttribute('stroke', COLOR);
+        p.setAttribute('stroke-width', sw);
+        p.setAttribute('stroke-linecap', 'round');
+        p.setAttribute('stroke-linejoin', 'round');
+
+        if (op < 1) {
+            p.setAttribute('opacity', op);
+        }
+
+        return p;
     };
 
-    // Send the email using EmailJS
-    emailjs.send("service_098iew2", "template_45nvhil", templateParams)
-        .then(function(response) {
-            formStatus.innerText = "Message sent successfully!";
-            formStatus.style.color = "green";  // Change text color to green for success
-            document.getElementById("contactForm").reset();  // Reset form fields
-        }, function(error) {
-            formStatus.innerText = "Failed to send message. Please try again.";
-            formStatus.style.color = "red";  // Change text color to red for error
-            console.error("EmailJS error:", error);
-        });
-});
+
+    const g = document.createElementNS(ns, 'g');
+
+
+    /* clip so waves don't paint outside the band */
+
+    const clipId = 'wfc_' + Math.random().toString(36).slice(2);
+
+    const defs = document.createElementNS(ns, 'defs');
+
+    const clip = document.createElementNS(ns, 'clipPath');
+
+    clip.setAttribute('id', clipId);
+
+
+    /* clip rect: full page */
+
+    const cr = document.createElementNS(ns, 'rect');
+
+    cr.setAttribute('x', 0);
+    cr.setAttribute('y', 0);
+
+    cr.setAttribute('width', W);
+    cr.setAttribute('height', H);
+
+    clip.appendChild(cr);
+
+    defs.appendChild(clip);
+
+    svg.appendChild(defs);
+
+    g.setAttribute('clip-path', `url(#${clipId})`);
+
+
+    const bw = THICK;
+    const inner = 2.6;
+    const outer = 2.6;
+    const wave = 2.2;
+
+
+    /* ── TOP ── */
+
+    g.appendChild(
+        makeStroke(`M0,${outer} H${W}`, outer)
+    );
+
+    g.appendChild(
+        makeStroke(`M${CORNER},${bw - inner} H${W - CORNER}`, inner)
+    );
+
+    g.appendChild(
+        makeStroke(
+            wavePathH(CORNER, 0, W - 2 * CORNER, 1),
+            wave
+        )
+    );
+
+    g.appendChild(
+        makeStroke(
+            wavePathH(CORNER, 0, W - 2 * CORNER, 1).replace(
+                new RegExp(`M${CORNER},${bw / 2}`),
+                `M${CORNER},${bw / 2 + 3}`
+            ),
+            wave * 0.55,
+            0.35
+        )
+    );
+
+
+    /* ── BOTTOM ── */
+
+    g.appendChild(
+        makeStroke(`M0,${H - outer} H${W}`, outer)
+    );
+
+    g.appendChild(
+        makeStroke(`M${CORNER},${H - bw + inner} H${W - CORNER}`, inner)
+    );
+
+    g.appendChild(
+        makeStroke(
+            wavePathH(CORNER, H - bw, W - 2 * CORNER, -1),
+            wave
+        )
+    );
+
+
+    /* ── LEFT ── */
+
+    g.appendChild(
+        makeStroke(`M${outer},0 V${H}`, outer)
+    );
+
+    g.appendChild(
+        makeStroke(`M${bw - inner},${CORNER} V${H - CORNER}`, inner)
+    );
+
+    g.appendChild(
+        makeStroke(
+            wavePathV(0, CORNER, H - 2 * CORNER, 1),
+            wave
+        )
+    );
+
+
+    /* ── RIGHT ── */
+
+    g.appendChild(
+        makeStroke(`M${W - outer},0 V${H}`, outer)
+    );
+
+    g.appendChild(
+        makeStroke(`M${W - bw + inner},${CORNER} V${H - CORNER}`, inner)
+    );
+
+    g.appendChild(
+        makeStroke(
+            wavePathV(W - bw, CORNER, H - 2 * CORNER, -1),
+            wave
+        )
+    );
+
+
+    /* ── CORNERS ── */
+
+    const corners = [
+        [CORNER / 2, CORNER / 2],
+        [W - CORNER / 2, CORNER / 2],
+        [CORNER / 2, H - CORNER / 2],
+        [W - CORNER / 2, H - CORNER / 2]
+    ];
+
+
+    corners.forEach(([cx, cy]) => {
+
+        // filled square block
+
+        const sq = document.createElementNS(ns, 'rect');
+
+        sq.setAttribute('x', cx - CORNER / 2);
+        sq.setAttribute('y', cy - CORNER / 2);
+
+        sq.setAttribute('width', CORNER);
+        sq.setAttribute('height', CORNER);
+
+        sq.setAttribute('fill', '#050505');
+
+        sq.setAttribute('stroke', COLOR);
+        sq.setAttribute('stroke-width', outer);
+
+        g.appendChild(sq);
+
+
+        // diagonal cross inside corner block
+
+        const diag = document.createElementNS(ns, 'path');
+
+        const r = CORNER * 0.3;
+
+        diag.setAttribute(
+            'd',
+            `M${cx-r},${cy-r} L${cx+r},${cy+r} M${cx+r},${cy-r} L${cx-r},${cy+r}`
+        );
+
+        diag.setAttribute('fill', 'none');
+
+        diag.setAttribute('stroke', COLOR);
+
+        diag.setAttribute('stroke-width', '1.8');
+
+        g.appendChild(diag);
+
+
+        // outer circle ring
+
+        const circ = document.createElementNS(ns, 'circle');
+
+        circ.setAttribute('cx', cx);
+        circ.setAttribute('cy', cy);
+
+        circ.setAttribute('r', CORNER * 0.42);
+
+        circ.setAttribute('fill', 'none');
+
+        circ.setAttribute('stroke', COLOR);
+
+        circ.setAttribute('stroke-width', '1.4');
+
+        g.appendChild(circ);
+    });
+
+
+    svg.appendChild(g);
+
+    return svg;
+}
+
+
+/* Inject SVG into every .wave-frame */
+
+function injectBorders() {
+
+    document.querySelectorAll('.wave-frame').forEach(frame => {
+
+        const page = frame.parentElement;
+
+        const W = page.offsetWidth || window.innerWidth;
+        const H = page.offsetHeight || window.innerHeight;
+
+        frame.innerHTML = '';
+
+        frame.appendChild(
+            buildWaveSVG(W, H)
+        );
+    });
+}
+
+
+injectBorders();
+
+window.addEventListener('resize', injectBorders);
