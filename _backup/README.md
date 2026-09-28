@@ -28,11 +28,11 @@ Aspiring software developer with hands-on experience in **Python, Java, and Java
 
 ### Independent Software Developer & Open Source Contributor
 
-- **Real-Time Chat Application** | [GitHub](https://github.com/GOMO2005/Real-Time-Chat-Application) Developed a scalable chat app supporting multiple users with **real-time messaging** using ReactJS, Flask/Django, and WebSockets. Reduced message latency by 30% and added features like online presence indicators and message history persistence.
-- **Web Login with Facial Recognition** | [GitHub](https://github.com/GOMO2005/Web-Login-with-Facial-Recognition) Designed a secure web authentication system using OpenCV and Python for facial recognition login, improving security and convenience.
-- **Automated Registration & Login Bot** | [GitHub](https://github.com/GOMO2005/Automatic-Registration-and-Login-Bot) Built a Selenium-based automation tool for bulk registration and login testing, reducing manual effort by 80%.
-- **Birthday Wish Card Generator** | [GitHub](https://github.com/GOMO2005/my-portfolio) Created an interactive web app to generate customizable birthday greeting cards, enhancing user engagement.
-- **Email Filter and Sorter** | [GitHub](https://github.com/GOMO2005/Email-Filter-and-Sorter) Developed a Python script to automatically categorize and sort emails, reducing management time by 40%.
+- **Real-Time Chat Application** | [GitHub](https://github.com/GOMO2005/my-portfolio)Developed a scalable chat app supporting multiple users with **real-time messaging** using ReactJS, Flask/Django, and WebSockets. Reduced message latency by 30% and added features like online presence indicators and message history persistence.
+- **Web Login with Facial Recognition** | [GitHub](https://github.com/GOMO2005/my-portfolio)Designed a secure web authentication system using OpenCV and Python for facial recognition login, improving security and convenience.
+- **Automated Registration & Login Bot** | [GitHub](https://github.com/GOMO2005/my-portfolio)Built a Selenium-based automation tool for bulk registration and login testing, reducing manual effort by 80%.
+- **Birthday Wish Card Generator** | [GitHub](https://github.com/GOMO2005/my-portfolio)Created an interactive web app to generate customizable birthday greeting cards, enhancing user engagement.
+- **Email Filter and Sorter** | [GitHub](https://github.com/GOMO2005/my-portfolio)Developed a Python script to automatically categorize and sort emails, reducing management time by 40%.
 - **Web Compiler and Interpreter** | [GitHub](https://github.com/GOMO2005/my-portfolio)
   Browser-based code compiler supporting multiple languages for real-time execution and debugging, primarily for educational purposes.
 
@@ -40,8 +40,7 @@ Aspiring software developer with hands-on experience in **Python, Java, and Java
 
 ## 🎓 Education
 
-**Bachelor of Technology in Computer Science & Engineering**
-GPCET, Kurnool, India | Expected Graduation: 2027
+**Bachelor of Technology in Computer Science & Engineering**GPCET, Kurnool, India | Expected Graduation: 2027
 
 - Relevant coursework: Data Structures, Algorithms, Web Technologies, Cloud Computing, Artificial Intelligence
 - Projects: Developed a **cloud-based document sharing app** as part of coursework.

@@ -1,362 +1,226 @@
-/* ─── Navigation ─── */
+﻿/* ---------- Core refs ---------- */
 
 const slider = document.getElementById('slider');
 const bar = document.getElementById('bar');
+const formStatus = document.getElementById('status');
+const pageCount = slider.querySelectorAll('.page').length;
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-document.querySelector('.next').addEventListener('click', () => {
-    slider.scrollBy({
-        left: window.innerWidth,
-        behavior: 'smooth'
-    });
-});
+const scrollBehavior = () => (reduceMotion.matches ? 'auto' : 'smooth');
+const currentPage = () => Math.round(slider.scrollLeft / window.innerWidth);
 
-document.querySelector('.prev').addEventListener('click', () => {
-    slider.scrollBy({
-        left: -window.innerWidth,
-        behavior: 'smooth'
-    });
-});
+function goTo(index) {
+  const target = Math.max(0, Math.min(pageCount - 1, index));
+  slider.scrollTo({ left: target * window.innerWidth, behavior: scrollBehavior() });
+}
+
+/* ---------- Nav buttons ---------- */
+
+document.querySelector('.next').addEventListener('click', () => goTo(currentPage() + 1));
+document.querySelector('.prev').addEventListener('click', () => goTo(currentPage() - 1));
+
+/* ---------- Progress bar: rAF + transform (compositor-only, zero reflow) ---------- */
+
+let maxScroll = slider.scrollWidth - slider.clientWidth;
+let progressQueued = false;
+
+function paintProgress() {
+  progressQueued = false;
+  const ratio = maxScroll > 0 ? slider.scrollLeft / maxScroll : 0;
+  bar.style.transform = 'scaleX(' + ratio + ')';
+}
 
 slider.addEventListener('scroll', () => {
-    const max = slider.scrollWidth - slider.clientWidth;
-    bar.style.width = (slider.scrollLeft / max * 100) + '%';
-});
+  if (!progressQueued) {
+    progressQueued = true;
+    requestAnimationFrame(paintProgress);
+  }
+}, { passive: true });
+
+/* ---------- Wheel: vertical inside panels, one smooth page-turn per gesture elsewhere ---------- */
+
+let wheelLocked = false;
 
 slider.addEventListener('wheel', (e) => {
-    if (e.deltaY !== 0) {
-        e.preventDefault();
-        slider.scrollLeft += e.deltaY;
-    }
-});
+  const panel = e.target.closest('.content-panel');
+  if (panel && panel.scrollHeight - panel.clientHeight > 1) return; // let lists scroll vertically
+
+  if (e.deltaY === 0 && e.deltaX === 0) return;
+  e.preventDefault();
+
+  if (wheelLocked) return; // one page per gesture = no snap fighting, no jitter
+  wheelLocked = true;
+
+  const dir = (e.deltaY || e.deltaX) > 0 ? 1 : -1;
+  goTo(currentPage() + dir);
+  setTimeout(() => { wheelLocked = false; }, 650);
+}, { passive: false });
+
+/* ---------- Contact form ---------- */
+
+let statusTimer = 0;
 
 document.getElementById('contactForm').addEventListener('submit', (e) => {
-    e.preventDefault();
-
-    document.getElementById('status').style.display = 'block';
-
-    e.target.reset();
+  e.preventDefault();
+  formStatus.style.display = 'block';
+  e.target.reset();
+  clearTimeout(statusTimer);
+  statusTimer = setTimeout(() => { formStatus.style.display = 'none'; }, 4000);
 });
 
+/* ---------- Wave Border Builder ---------- */
 
-/* ─── Wave Border Builder ─── */
-
-const COLOR  = '#00ffcc';
+const ACCENT = '#00ffcc';
 const THICK  = 22;
 const WAVE_W = 32;
-const WAVE_H = 22;
 const CORNER = THICK;
 
-
-/**
- * Build a wave path string for a horizontal strip
- * dir: 1 = wave peaks up
- * dir: -1 = wave peaks down
- */
-
 function wavePathH(x0, y0, length, dir) {
-
-    const cy = y0 + THICK / 2;
-    const amp = THICK * 0.38;
-    const wl = WAVE_W;
-
-    let d = `M${x0},${cy}`;
-
-    const steps = Math.ceil(length / wl) + 1;
-
-    for (let i = 0; i < steps; i++) {
-
-        const x1 = x0 + i * wl + wl / 4;
-        const x2 = x0 + i * wl + wl * 3 / 4;
-        const x3 = x0 + (i + 1) * wl;
-
-        d += ` C${x1},${cy - dir * amp} ${x2},${cy + dir * amp} ${x3},${cy}`;
-    }
-
-    return d;
+  const cy = y0 + THICK / 2;
+  const amp = THICK * 0.38;
+  const steps = Math.ceil(length / WAVE_W) + 1;
+  let d = `M${x0},${cy}`;
+  for (let i = 0; i < steps; i++) {
+    const x1 = x0 + i * WAVE_W + WAVE_W / 4;
+    const x2 = x0 + i * WAVE_W + (WAVE_W * 3) / 4;
+    const x3 = x0 + (i + 1) * WAVE_W;
+    d += ` C${x1},${cy - dir * amp} ${x2},${cy + dir * amp} ${x3},${cy}`;
+  }
+  return d;
 }
-
-
-/**
- * Build a wave path string for a vertical strip
- */
 
 function wavePathV(x0, y0, length, dir) {
-
-    const cx = x0 + THICK / 2;
-    const amp = THICK * 0.38;
-    const wl = WAVE_W;
-
-    let d = `M${cx},${y0}`;
-
-    const steps = Math.ceil(length / wl) + 1;
-
-    for (let i = 0; i < steps; i++) {
-
-        const y1 = y0 + i * wl + wl / 4;
-        const y2 = y0 + i * wl + wl * 3 / 4;
-        const y3 = y0 + (i + 1) * wl;
-
-        d += ` C${cx - dir * amp},${y1} ${cx + dir * amp},${y2} ${cx},${y3}`;
-    }
-
-    return d;
+  const cx = x0 + THICK / 2;
+  const amp = THICK * 0.38;
+  const steps = Math.ceil(length / WAVE_W) + 1;
+  let d = `M${cx},${y0}`;
+  for (let i = 0; i < steps; i++) {
+    const y1 = y0 + i * WAVE_W + WAVE_W / 4;
+    const y2 = y0 + i * WAVE_W + (WAVE_W * 3) / 4;
+    const y3 = y0 + (i + 1) * WAVE_W;
+    d += ` C${cx - dir * amp},${y1} ${cx + dir * amp},${y2} ${cx},${y3}`;
+  }
+  return d;
 }
-
 
 function buildWaveSVG(W, H) {
-
-    const ns = 'http://www.w3.org/2000/svg';
-
-    const svg = document.createElementNS(ns, 'svg');
-
-    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
-    svg.setAttribute('preserveAspectRatio', 'none');
-
-    svg.style.cssText = `
-        position:absolute;
-        top:0;
-        left:0;
-        width:100%;
-        height:100%;
-    `;
-
-
-    const makeStroke = (d, sw, op = 1) => {
-
-        const p = document.createElementNS(ns, 'path');
-
-        p.setAttribute('d', d);
-        p.setAttribute('fill', 'none');
-        p.setAttribute('stroke', COLOR);
-        p.setAttribute('stroke-width', sw);
-        p.setAttribute('stroke-linecap', 'round');
-        p.setAttribute('stroke-linejoin', 'round');
-
-        if (op < 1) {
-            p.setAttribute('opacity', op);
-        }
-
-        return p;
-    };
-
-
-    const g = document.createElementNS(ns, 'g');
-
-
-    /* clip so waves don't paint outside the band */
-
-    const clipId = 'wfc_' + Math.random().toString(36).slice(2);
-
-    const defs = document.createElementNS(ns, 'defs');
-
-    const clip = document.createElementNS(ns, 'clipPath');
-
-    clip.setAttribute('id', clipId);
-
-
-    /* clip rect: full page */
-
-    const cr = document.createElementNS(ns, 'rect');
-
-    cr.setAttribute('x', 0);
-    cr.setAttribute('y', 0);
-
-    cr.setAttribute('width', W);
-    cr.setAttribute('height', H);
-
-    clip.appendChild(cr);
-
-    defs.appendChild(clip);
-
-    svg.appendChild(defs);
-
-    g.setAttribute('clip-path', `url(#${clipId})`);
-
-
-    const bw = THICK;
-    const inner = 2.6;
-    const outer = 2.6;
-    const wave = 2.2;
-
-
-    /* ── TOP ── */
-
-    g.appendChild(
-        makeStroke(`M0,${outer} H${W}`, outer)
-    );
-
-    g.appendChild(
-        makeStroke(`M${CORNER},${bw - inner} H${W - CORNER}`, inner)
-    );
-
-    g.appendChild(
-        makeStroke(
-            wavePathH(CORNER, 0, W - 2 * CORNER, 1),
-            wave
-        )
-    );
-
-    g.appendChild(
-        makeStroke(
-            wavePathH(CORNER, 0, W - 2 * CORNER, 1).replace(
-                new RegExp(`M${CORNER},${bw / 2}`),
-                `M${CORNER},${bw / 2 + 3}`
-            ),
-            wave * 0.55,
-            0.35
-        )
-    );
-
-
-    /* ── BOTTOM ── */
-
-    g.appendChild(
-        makeStroke(`M0,${H - outer} H${W}`, outer)
-    );
-
-    g.appendChild(
-        makeStroke(`M${CORNER},${H - bw + inner} H${W - CORNER}`, inner)
-    );
-
-    g.appendChild(
-        makeStroke(
-            wavePathH(CORNER, H - bw, W - 2 * CORNER, -1),
-            wave
-        )
-    );
-
-
-    /* ── LEFT ── */
-
-    g.appendChild(
-        makeStroke(`M${outer},0 V${H}`, outer)
-    );
-
-    g.appendChild(
-        makeStroke(`M${bw - inner},${CORNER} V${H - CORNER}`, inner)
-    );
-
-    g.appendChild(
-        makeStroke(
-            wavePathV(0, CORNER, H - 2 * CORNER, 1),
-            wave
-        )
-    );
-
-
-    /* ── RIGHT ── */
-
-    g.appendChild(
-        makeStroke(`M${W - outer},0 V${H}`, outer)
-    );
-
-    g.appendChild(
-        makeStroke(`M${W - bw + inner},${CORNER} V${H - CORNER}`, inner)
-    );
-
-    g.appendChild(
-        makeStroke(
-            wavePathV(W - bw, CORNER, H - 2 * CORNER, -1),
-            wave
-        )
-    );
-
-
-    /* ── CORNERS ── */
-
-    const corners = [
-        [CORNER / 2, CORNER / 2],
-        [W - CORNER / 2, CORNER / 2],
-        [CORNER / 2, H - CORNER / 2],
-        [W - CORNER / 2, H - CORNER / 2]
-    ];
-
-
-    corners.forEach(([cx, cy]) => {
-
-        // filled square block
-
-        const sq = document.createElementNS(ns, 'rect');
-
-        sq.setAttribute('x', cx - CORNER / 2);
-        sq.setAttribute('y', cy - CORNER / 2);
-
-        sq.setAttribute('width', CORNER);
-        sq.setAttribute('height', CORNER);
-
-        sq.setAttribute('fill', '#050505');
-
-        sq.setAttribute('stroke', COLOR);
-        sq.setAttribute('stroke-width', outer);
-
-        g.appendChild(sq);
-
-
-        // diagonal cross inside corner block
-
-        const diag = document.createElementNS(ns, 'path');
-
-        const r = CORNER * 0.3;
-
-        diag.setAttribute(
-            'd',
-            `M${cx-r},${cy-r} L${cx+r},${cy+r} M${cx+r},${cy-r} L${cx-r},${cy+r}`
-        );
-
-        diag.setAttribute('fill', 'none');
-
-        diag.setAttribute('stroke', COLOR);
-
-        diag.setAttribute('stroke-width', '1.8');
-
-        g.appendChild(diag);
-
-
-        // outer circle ring
-
-        const circ = document.createElementNS(ns, 'circle');
-
-        circ.setAttribute('cx', cx);
-        circ.setAttribute('cy', cy);
-
-        circ.setAttribute('r', CORNER * 0.42);
-
-        circ.setAttribute('fill', 'none');
-
-        circ.setAttribute('stroke', COLOR);
-
-        circ.setAttribute('stroke-width', '1.4');
-
-        g.appendChild(circ);
-    });
-
-
-    svg.appendChild(g);
-
-    return svg;
+  const NS = 'http://www.w3.org/2000/svg';
+  const svg = document.createElementNS(NS, 'svg');
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  svg.setAttribute('preserveAspectRatio', 'none');
+  svg.setAttribute('aria-hidden', 'true');
+  svg.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;';
+
+  const mkPath = (d, sw, op = 1) => {
+    const p = document.createElementNS(NS, 'path');
+    p.setAttribute('d', d);
+    p.setAttribute('fill', 'none');
+    p.setAttribute('stroke', ACCENT);
+    p.setAttribute('stroke-width', sw);
+    p.setAttribute('stroke-linecap', 'round');
+    p.setAttribute('stroke-linejoin', 'round');
+    if (op < 1) p.setAttribute('opacity', op);
+    return p;
+  };
+
+  const g = document.createElementNS(NS, 'g');
+  const line = 2.6;
+  const wave = 2.2;
+
+  g.appendChild(mkPath(`M0,${line} H${W}`, line));
+  g.appendChild(mkPath(`M${CORNER},${THICK - line} H${W - CORNER}`, line));
+  const topWave = wavePathH(CORNER, 0, W - 2 * CORNER, 1);
+  g.appendChild(mkPath(topWave, wave));
+  g.appendChild(mkPath(topWave.replace(`M${CORNER},${THICK / 2}`, `M${CORNER},${THICK / 2 + 3}`), wave * 0.55, 0.35));
+
+  g.appendChild(mkPath(`M0,${H - line} H${W}`, line));
+  g.appendChild(mkPath(`M${CORNER},${H - THICK + line} H${W - CORNER}`, line));
+  g.appendChild(mkPath(wavePathH(CORNER, H - THICK, W - 2 * CORNER, -1), wave));
+
+  g.appendChild(mkPath(`M${line},0 V${H}`, line));
+  g.appendChild(mkPath(`M${THICK - line},${CORNER} V${H - CORNER}`, line));
+  g.appendChild(mkPath(wavePathV(0, CORNER, H - 2 * CORNER, 1), wave));
+
+  g.appendChild(mkPath(`M${W - line},0 V${H}`, line));
+  g.appendChild(mkPath(`M${W - THICK + line},${CORNER} V${H - CORNER}`, line));
+  g.appendChild(mkPath(wavePathV(W - THICK, CORNER, H - 2 * CORNER, -1), wave));
+
+  [
+    [CORNER / 2, CORNER / 2],
+    [W - CORNER / 2, CORNER / 2],
+    [CORNER / 2, H - CORNER / 2],
+    [W - CORNER / 2, H - CORNER / 2]
+  ].forEach(([cx, cy]) => {
+    const sq = document.createElementNS(NS, 'rect');
+    sq.setAttribute('x', cx - CORNER / 2);
+    sq.setAttribute('y', cy - CORNER / 2);
+    sq.setAttribute('width', CORNER);
+    sq.setAttribute('height', CORNER);
+    sq.setAttribute('fill', '#050505');
+    sq.setAttribute('stroke', ACCENT);
+    sq.setAttribute('stroke-width', '2.6');
+    g.appendChild(sq);
+
+    const r = CORNER * 0.3;
+    const cross = document.createElementNS(NS, 'path');
+    cross.setAttribute('d', `M${cx - r},${cy - r} L${cx + r},${cy + r} M${cx + r},${cy - r} L${cx - r},${cy + r}`);
+    cross.setAttribute('fill', 'none');
+    cross.setAttribute('stroke', ACCENT);
+    cross.setAttribute('stroke-width', '1.8');
+    g.appendChild(cross);
+
+    const ring = document.createElementNS(NS, 'circle');
+    ring.setAttribute('cx', cx);
+    ring.setAttribute('cy', cy);
+    ring.setAttribute('r', CORNER * 0.42);
+    ring.setAttribute('fill', 'none');
+    ring.setAttribute('stroke', ACCENT);
+    ring.setAttribute('stroke-width', '1.4');
+    g.appendChild(ring);
+  });
+
+  svg.appendChild(g);
+  return svg;
 }
 
-
-/* Inject SVG into every .wave-frame */
+/* ---------- Injection: batch ALL reads, then ALL writes (no thrash) ---------- */
 
 function injectBorders() {
-
-    document.querySelectorAll('.wave-frame').forEach(frame => {
-
-        const page = frame.parentElement;
-
-        const W = page.offsetWidth || window.innerWidth;
-        const H = page.offsetHeight || window.innerHeight;
-
-        frame.innerHTML = '';
-
-        frame.appendChild(
-            buildWaveSVG(W, H)
-        );
-    });
+  const jobs = [];
+  document.querySelectorAll('.wave-frame').forEach((frame) => {
+    const page = frame.parentElement;
+    jobs.push([frame, page.offsetWidth || window.innerWidth, page.offsetHeight || window.innerHeight]);
+  });
+  for (const [frame, W, H] of jobs) {
+    frame.replaceChildren(buildWaveSVG(W, H));
+  }
 }
-
 
 injectBorders();
 
-window.addEventListener('resize', injectBorders);
+let lastW = window.innerWidth;
+let lastH = window.innerHeight;
+let resizeRaf = 0;
+
+window.addEventListener('resize', () => {
+  if (resizeRaf) return;
+  resizeRaf = requestAnimationFrame(() => {
+    resizeRaf = 0;
+    if (window.innerWidth === lastW && window.innerHeight === lastH) return;
+    lastW = window.innerWidth;
+    lastH = window.innerHeight;
+    maxScroll = slider.scrollWidth - slider.clientWidth;
+    injectBorders();
+    paintProgress();
+  });
+});
+
+/* ---------- Keyboard + initial paint ---------- */
+
+document.addEventListener('keydown', (e) => {
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+  if (e.key === 'ArrowRight') goTo(currentPage() + 1);
+  if (e.key === 'ArrowLeft') goTo(currentPage() - 1);
+});
+
+paintProgress();
